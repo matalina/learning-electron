@@ -4,6 +4,7 @@ const path = require('path');
 const { app, BrowserWindow, ipcMain, Menu, Tray } = electron;
 
 let mainWindow;
+let tray;
 
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
@@ -12,7 +13,7 @@ app.on('ready', () => {
         // title: 'Title here',
         // frame: false, // no window chrome
         // resizable: false, // no resize option
-        //
+        // show: false, // do not show at startup
     });
     mainWindow.loadURL(`file://${__dirname}/main.html`);
     mainWindow.on('closed',() => app.quit());
@@ -22,7 +23,15 @@ app.on('ready', () => {
 
     const iconName = process.platform === 'win32' ? 'windows_filename.png' : 'filename.png';
     const iconPath = path.join(__dirname,`./path/location/${iconName}`);
-    new Tray(iconPath);
+    tray = new Tray(iconPath);
+    tray.on('click', () => {
+        if(mainWindow.isVisible()) {
+            mainWindow.hide();
+        }
+        else {
+            mainWindow.show();
+        }
+    });
 });
 
 // when adding new windows
