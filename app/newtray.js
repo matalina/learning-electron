@@ -7,6 +7,9 @@ class NewTray extends Tray {
   constructor(path, mainWindow) {
     super(path);
     this.mainWindow = mainWindow;
+    
+    this.setToolTip('New Tray');
+    
     this.on('click', this.onClick);
   } 
   
