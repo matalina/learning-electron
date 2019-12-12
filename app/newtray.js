@@ -11,6 +11,7 @@ class NewTray extends Tray {
     this.setToolTip('New Tray');
     
     this.on('click', this.onClick);
+    this.on('right-click', this.onRightClick.bind(this);
   } 
   
   onClick(event, bounds) {
@@ -30,6 +31,10 @@ class NewTray extends Tray {
         });
         this.mainWindow.show();
     }
+  }
+
+  onRightClick(event, bounds) {
+    
   }
 };
 
