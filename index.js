@@ -1,7 +1,8 @@
 const electron = require('electron');
 const path = require('path');
+const NewTray = './app/NewTray';
 
-const { app, BrowserWindow, ipcMain, Menu, Tray } = electron;
+const { app, BrowserWindow, ipcMain, Menu } = electron;
 
 let mainWindow;
 let tray;
@@ -23,7 +24,7 @@ app.on('ready', () => {
 
     const iconName = process.platform === 'win32' ? 'windows_filename.png' : 'filename.png';
     const iconPath = path.join(__dirname,`./path/location/${iconName}`);
-    tray = new Tray(iconPath);
+    tray = new NewTray(iconPath);
     tray.on('click', (event, bounds) => {
         const { x, y } = bounds;
         const { height, width } = mainWindow.getBounds();
