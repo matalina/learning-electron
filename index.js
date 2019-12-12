@@ -1,29 +1,39 @@
 const electron = require('electron');
 const path = require('path');
-const NewTray = './app/NewTray';
+const NewTray = require('./app/new_tray');
+const MainWindow = require('./app/main_window');
 
-const { app, BrowserWindow, ipcMain, Menu } = electron;
+const { app, ipcMain, Menu } = electron;
 
 let mainWindow;
 let tray;
 
 app.on('ready', () => {
-    mainWindow = new BrowserWindow({
+    mainWindow = new MainWindow({
         // width: 300,
         // height: 200,
         // title: 'Title here',
         // frame: false, // no window chrome
         // resizable: false, // no resize option
         // show: false, // do not show at startup
-    });
-    mainWindow.loadURL(`file://${__dirname}/main.html`);
-    mainWindow.on('closed',() => app.quit());
+        // webPreferences: {
+        //     backgroundThrottling: false, // run scripts in background
+        // }
+    }, `file://${__dirname}/main.html`);
+
+    // if not needed in task bar
+    /*if(process.platform === 'darwin') {
+        app.dock.hide();
+    }
+    else {
+        mainWindow.setSkipTaskbar(true);
+    }*/
 
     const mainMenu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(mainMenu);
 
-    const iconName = process.platform === 'win32' ? 'windows_filename.png' : 'filename.png';
-    const iconPath = path.join(__dirname,`./path/location/${iconName}`);
+    const iconName = process.platform === 'win32' ? 'icon-background.png' : 'icon-transparent.png';
+    const iconPath = path.join(__dirname,`./assets/images/${iconName}`);
     tray = new NewTray(iconPath, mainWindow);
 });
 
