@@ -24,11 +24,21 @@ app.on('ready', () => {
     const iconName = process.platform === 'win32' ? 'windows_filename.png' : 'filename.png';
     const iconPath = path.join(__dirname,`./path/location/${iconName}`);
     tray = new Tray(iconPath);
-    tray.on('click', () => {
+    tray.on('click', (event, bounds) => {
+        const { x, y } = bounds;
+        const { height, width } = mainWindow.getBounds();
+        
+        const yPosition = process.platform === 'darwin': y ? y - height;
         if(mainWindow.isVisible()) {
             mainWindow.hide();
         }
         else {
+            mainWindow.setBounds({
+                x: x - width / 2,
+                y: y ,
+                height,
+                width,
+            });
             mainWindow.show();
         }
     });
