@@ -5,7 +5,6 @@ const NewTray = './app/NewTray';
 const { app, BrowserWindow, ipcMain, Menu } = electron;
 
 let mainWindow;
-let tray;
 
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
@@ -24,7 +23,7 @@ app.on('ready', () => {
 
     const iconName = process.platform === 'win32' ? 'windows_filename.png' : 'filename.png';
     const iconPath = path.join(__dirname,`./path/location/${iconName}`);
-    tray = new NewTray(iconPath, mainWindow);
+    new NewTray(iconPath, mainWindow);
 });
 
 // when adding new windows
